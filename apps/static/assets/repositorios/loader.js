@@ -1,7 +1,7 @@
 
 
 async function auten(){   
-     await fetch('http://192.168.2.24:8001/user_unico/')
+     await fetch('https://arrendify-api.onrender.com/user_unico/')
       .then(response => response.json())
       .then(data => {
           // Aquí se puede hacer algo con los datos obtenidos, como renderizarlos en una tabla o mostrarlos en una lista
