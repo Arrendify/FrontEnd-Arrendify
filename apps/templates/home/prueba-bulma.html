@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>consumiendo api</title>
+    <link href="/static/assets/css/estilos.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">
+          Hello World
+        </h1>
+        <p class="subtitle">
+          My first website with <strong>Bulma</strong>!
+          <button class="button is-link" onClick="prueba()">prueba</button>
+          
+          
+        </p>
+      </div>
+      <div class="card card-body shadow border-0 table-wrapper table-responsive"><!-- podemos agregar la clase => table-responsive-->
+        <table class="table"> <!--id="datatable"-->
+            <thead>
+                <tr >
+                    <th class="border-bottom">Nombre</th>						
+                    <th class="border-bottom">img</th>
+                    <th class="border-bottom">Nivel</th>
+                </tr>
+            </thead>
+            <tbody id="table_body" style="overflow-x: hidden;">
+                
+            </tbody>
+        </table>
+        
+    </div>
+    
+      
+    </section>
+    </body>
+
+</html>
+<script>
+    function prueba(){
+        console.log("hola")
+    axios.get('https://digimon-api.vercel.app/api/digimon')
+  .then(function (response) {
+    // manejar respuesta exitosa
+    let respuesta = response.data
+    
+    var cuerpo = document.getElementById("table_body")
+    let tr = document.createElement('tr')
+    let col1 = document.createElement('td')
+    let col2 = document.createElement('td')
+    let col3 = document.createElement('td')
+/* uno solo elemento 
+   let tr = document.createElement('tr')
+    let col1 = document.createElement('td')
+    let col2 = document.createElement('td')
+    let col3 = document.createElement('td')
+    col1.textContent = respuesta[0].name;
+    col2.textContent = respuesta[0].img;
+    col3.textContent = respuesta[0].level;
+    tr.appendChild(col1)
+    tr.appendChild(col2)
+    tr.appendChild(col3)
+    cuerpo.appendChild(tr)
+    */
+    for(let i = 0; i < respuesta.length;i++)
+    {
+        let tr = document.createElement('tr')
+        let col1 = document.createElement('td')
+        let col2 = document.createElement('td')
+        let img = document.createElement('img')
+        let link = document.createElement('a')
+        let col3 = document.createElement('td')
+        col1.textContent = respuesta[i].name;
+      
+        col1.id = i
+        img.style.width = '20px';
+        img.style.height = '20px';
+        img.src = respuesta[i].img
+        col2.appendChild (img)
+        col3.textContent = respuesta[i].level;
+        tr.appendChild(col1)
+        tr.appendChild(col2)
+        tr.appendChild(col3)
+        cuerpo.appendChild(tr)
+    }
+    console.log(respuesta);
+  })
+  .catch(function (error) {
+    // manejar error
+    console.log(error);
+  })
+  .finally(function () {
+    // siempre sera executado
+  });
+}
+    
+</script>

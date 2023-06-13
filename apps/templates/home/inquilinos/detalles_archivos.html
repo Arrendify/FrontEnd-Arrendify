@@ -4,7 +4,10 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
+
 <link href="/static/assets/css/ms.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 {% endblock stylesheets %}
 
 {% block content %}
@@ -57,7 +60,6 @@
             </tr>
         </thead>
         <tbody>
-            {% for inq in inquilinos %}
             <tr>
                 <td>
                     <div class="form-check dashboard-check">
@@ -93,7 +95,7 @@
                             </a>
 
                             <a class="dropdown-item d-flex align-items-center" onClick="alert0({{inq.id}})">
-                                <svg class="icon icon-xs text-danger ms-1" title="Historial" data-bs-toggle="tooltip" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                                <svg class="icon icon-xs text-danger ms-1" title="Eliminar" data-bs-toggle="tooltip" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
                                 &nbsp;Borrar
                             </a>                             
                         </div>   
@@ -101,18 +103,289 @@
                 </td>
 
             </tr>
-            {% endfor %}
         </tbody>
-    </table>
-   
+    </table> 
 </div>
 
-<div class="modal fade" id="archivos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+
+{% comment %} ------------------------------------------------------------------------------------------------------ {% endcomment %}
+
+<!-- Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+  Abrir Modal
+</button>
+<div class="modal fade" id="archivos1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title text-primary" id="exampleModalLabel">Documentos Subidos - Inquilino</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.href='/inquilinos/';"></button>
+        </div>
+        <div class="modal-body" style="background:linear-gradient(0deg, #231942ff, #5e548eff, #9f86c0ff, #be95c4ff, #e0b1cbff);">
+          <div class="row me-1 ms-1 border shadow border-2" style="background-color:white;">
+            <div class="col border-end border-2">
+                <h2 class="h5 mb-3 mt-4" style="color:#231942ff;">Observa o Modifica tus archivos</h2>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <label>Inquilino: </label>
+                <input id="inquilino" name="inquilino"  type="text" style="display:none"  readonly>
+                <input class="form-control-plaintext card shadow border-1 ps-1" id="inquilino_nombre" type="text" value="{{ arrendador.nombre_notario_ac}}"  readonly>
+            </div> 
+        </div> 
+            <form class="mt-4" id="editar_archivos">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color:#231942ff;">Comprobante De Domicilio</h5>
+                                <hr class="hr" />
+                                <div class="mb-3" style="margin-bottom: 0;">
+                                    <a class="mt-1" id="link_cd" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
+                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
+                                            <iframe src="" id="frame_cd" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                        </div>
+                                        <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
+                                        <p>Ver Documento.</p>
+                                    </a>
+                                    <div id="div-comentarios-cdd">
+                                      <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
+                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="col">           
+                                    <!-- El botón de archivo personalizado -->
+                                    <label for="Comp_dom" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                    </svg>
+                                    </label>
+                                    <!-- El input file oculto -->
+                                    <input type="file" class="file-input" id="Comp_dom" hidden required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color:#231942ff;">INE</h5>
+                                <hr class="hr" />
+                                <div class="mb-3" style="margin-bottom: 0;">
+                                    <a class="mt-1" id="link_ine" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
+                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
+                                            <iframe src="" id="frame_ine" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                        </div>
+                                        <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
+                                        <p>Ver Documento.</p>
+                                    </a>
+                                    <div id="div-comentarios-ine">
+                                      <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
+                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="col">           
+                                                <!-- El botón de archivo personalizado -->
+                                    <label for="Ine" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                    </svg>
+                                    </label>
+                                    <!-- El input file oculto -->
+                                    <input type="file" class="file-input" id="Ine" hidden required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="card mb-4">
+                          <div class="card-body">
+                              <h5 class="card-title" style="color:#231942ff;">RFC</h5>
+                              <hr class="hr" />
+                              <div class="mb-3" style="margin-bottom: 0;">
+                                  <a class="mt-1" id="link_rfc" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
+                                      <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
+                                          <iframe src="" id="frame_rfc" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                      </div>
+                                      <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
+                                      <p>Ver Documento.</p>
+                                  </a>
+                                  <div id="div-comentarios-rfc">
+                                    <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-body pt-0">
+                              <div class="col">           
+                                  <!-- El botón de archivo personalizado -->
+                                  <label for="Rfc" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                      <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                      <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                  </svg>
+                                  </label>
+                                  <!-- El input file oculto -->
+                                  <input type="file" class="file-input" id="Rfc" hidden required>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color:#231942ff;">Ingresos</h5>
+                                <hr class="hr" />
+                                <div class="mb-3" style="margin-bottom: 0;">
+                                    <a class="mt-1" id="link_ingresos" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
+                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
+                                            <iframe src="" id="frame_ingresos" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                        </div>
+                                        <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
+                                        <p>Ver Archivo.</p>
+                                    </a>
+                                    <div id="div-comentarios-ingresos">
+                                      <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
+                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="col">           
+                                                <!-- El botón de archivo personalizado -->
+                                    <label for="Ingresos" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                    </svg>
+                                    </label>
+                                    <!-- El input file oculto -->
+                                    <input type="file" class="file-input" id="Ingresos" hidden>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" id="div-rl" style="display:none;">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color:#231942ff;">Recomendacion Laboral</h5>
+                                <hr class="hr" />
+                                <div class="mb-3" style="margin-bottom: 0;">
+                                    <a class="mt-1" id="link_recomendacion_laboral" href="#" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
+                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
+                                            <iframe src=""  id="frame_recomendacion_laboral" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                        </div>
+                                        <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
+                                        <p>Ver Documento.</p>
+                                    </a>
+                                    <div id="div-comentarios-rl">
+                                      <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
+                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="col">           
+                                                <!-- El botón de archivo personalizado -->
+                                    <label for="Recomendacion_laboral" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                    </svg>
+                                    </label>
+                                    <!-- El input file oculto -->
+                                    <input type="file" class="file-input" id="Recomendacion_laboral" hidden>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color:#231942ff;">Documentos Extra</h5>
+                                <hr class="hr" />
+                                <div class="mb-3" style="margin-bottom: 0;">
+                                    <a class="mt-1" id="link_extras" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 10px;">
+                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 70%;">
+                                            <iframe src="" id="frame_extras" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                                        </div>
+                                        <i class="bi bi-file-pdf" style="font-size: 3rem;"></i>
+                                        <p class="text-primary">Ver Documento.</p>
+                                    </a>
+                                    <div id="div-comentarios-docs">
+                                      <label for="exampleFormControlTextarea1" class="form-label mt-3">Comentarios</label>
+                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="col">           
+                                                <!-- El botón de archivo personalizado -->
+                                    <label for="Extras" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                    </svg>
+                                    </label>
+                                    <!-- El input file oculto -->
+                                    <input type="file" class="file-input" id="Extras" hidden>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div class="row" id="div-ac" style="background-color:white; display:none;">
+                  <h5 class="card-title" style="color:#231942ff;">Link Acta Constitutiva: </h5>
+              
+                  <hr class="hr" />
+                  <div class="col-md-12 mb-4">  
+                    <input class="form-control-plaintext card shadow border-1 ps-1" id="Acta_constitutiva" name="Acta_constitutiva" type="text" value=""></input>                                 
+                    <a id="link_acta" target="_blank" href="" > Ver Documento.
+                    </a>                             
+                </div>
+                </div>
+            {% comment %} <button type="submit" class="btn btn-primary">Enviar</button> {% endcomment %}
+            <button type="submit" id="finalizar" class="btn btn-secondary mt-2">Guardar Cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="archivos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl overflow-auto">
       <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" style="height:15px" id="exampleModalLabel">Documentos Subidos</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="location.href='/inquilinos/';" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="location.href='/arrendadores/';" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="background:linear-gradient(0deg, #231942ff, #5e548eff, #9f86c0ff, #be95c4ff, #e0b1cbff);">
             <body>
@@ -121,47 +394,26 @@
                         <div class="col border-end border-2" >
                             <h2 class="h5 mb-3 mt-4">Observa o Modifica tus archivos</h2>
                         </div>
-                        
-                        <div class="col-md-4 mb-3">
-                            <label>Inquilino: </label>
-                            <input id="inquilino" name="inquilino"  type="text" style="display:none"  readonly>
-                            <input class="form-control-plaintext card shadow border-1 ps-1" id="inquilino_nombre" type="text" value="{{ arrendador.nombre_notario_ac}}"  readonly>
-                        </div> 
                     </div> 
                     
                       <div class="mt-4 " method="POST" enctype="multipart/form-data">
                             <div class="row" >
-                                <div class="col border shadow border-2 me-2" style="background-color:white;">
-                                    <h2 class="h5 mb-3 mt-4">C. Domicilio.</h2>
+                                <div class="col border shadow border-2 p-3 me-2" style="background-color:white;">
+                                    <h2 class="h5 mb-3 mt-4">Com. De Domicilio.</h2>
                                     <hr class="hr" />
                                     <div class="card mb-4" style="width: 100%;">
-                                      <a id="link_cd" href="" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top:25px;">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1200px-PDF_file_icon.svg.png" class="" alt="..."/>
-                                      </a>
                                       <div class="card-body">
                                         <hr class="hr" />
                                         <div class="container">
                                           <div class="row">
                                             <div class="col">
-                                                <button title="Historial" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-info">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                                    <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                                                    <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                                                    <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                                                  </svg>
+                                                <button title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-danger">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                      </svg>
                                                 </button>
                                             </div>
                                             <div class="col">
-                                                
-                                                <!-- El botón de archivo personalizado -->
-                                                <label for="Comp_dom" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                </svg>
-                                                </label>
-                                                <!-- El input file oculto -->
-                                                <input type="file" class="file-input" id="Comp_dom" accept="application/pdf">
                                             </div>
                                           </div>
                                         </div>
@@ -173,36 +425,32 @@
                                     </div>
                                   </div>
 
-                                  <div class="col border shadow border-2 me-2" style="background-color:white;">
+                                  <div class="col border shadow border-2 p-3 me-2" style="background-color:white;">
                                     <h2 class="h5 mb-3 mt-4">INE.</h2>
                                     <hr class="hr" />
                                     <div class="card mb-4" style="width: 100%;">
-                                      <a id="link_ine" href="" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top:25px;">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1200px-PDF_file_icon.svg.png" class="" alt="..."/>
-                                      </a>
+
                                       <div class="card-body">
-                                        <hr class="hr" />
+                                        <hr class="hr"/>
                                         <div class="container">
                                           <div class="row">
                                             <div class="col">
-                                                <button title="Historial" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-info">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                                    <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                                                    <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                                                    <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                                                  </svg>
+                                                <button title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-danger">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                      </svg>
                                                 </button>
                                             </div>
                                             <div class="col">
                                                 <!-- El botón de archivo personalizado -->
-                                                <label for="Ine" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                                {% comment %} <label for="Ine" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
                                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                                                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                                                     <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                                                 </svg>
                                                 </label>
                                                 <!-- El input file oculto -->
-                                                <input type="file"  class="file-input" id="Ine" accept="application/pdf">
+                                                <input type="file"  class="file-input" id="Ine"> {% endcomment %}
                                             </div>
                                           </div>
                                         </div>
@@ -214,37 +462,33 @@
                                     </div>
                                   </div>
 
-                                  <div class="col border shadow border-2 me-2" style="background-color:white;">
-                                    <h2 class="h5 mb-3 mt-4">RFC.</h2>
+                                  <div class="col border shadow border-2 p-3 me-2" style="background-color:white;">
+                                    <h2 class="h5 mb-3 mt-4">Predial</h2>
                                     <hr class="hr" />
                                     <div class="card mb-4" style="width: 100%;">
-                                        <iframe id="frame_rfc" onClick="abrirEnlace()" class="" alt="..." style="width: 100%; height: 100%;">
-                                        </iframe>
-                                        <a href="#" id ="link_rfc" target="_blank" class="text-tertiary me-3 mt-2">Ver Documento.</a>
+                                   
                                       <div class="card-body">
                                         <hr class="hr" />
                                         <div class="container">
                                           <div class="row">
                                             <div class="col">
-                                              <button title="Historial" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-info">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                                  <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                                                  <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                                                  <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                                                </svg>
+                                              <button title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-danger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                  </svg>
                                             </button>
                                             </div>
                                             <div class="col">
                                              
                                                 <!-- El botón de archivo personalizado -->
-                                                <label for="Rfc" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
+                                                {% comment %} <label for="Rfc" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
                                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                                                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                                                     <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                                                 </svg>
                                                 </label>
                                                 <!-- El input file oculto -->
-                                                <input type="file" class="file-input" id="Rfc" accept="application/pdf">
+                                                <input type="file" class="file-input" id="Rfc"> {% endcomment %}
                                             </div>
                                           </div>
                                         </div>
@@ -256,121 +500,33 @@
                                     </div>
                                   </div>
 
-                                  <div class="col border shadow border-2 me-2" style="background-color:white;">
-                                    <h2 class="h5 mb-3 mt-4">Ingresos.</h2>
+                                  {% comment %} asuhaduosdas {% endcomment %}
+                                  <div class="col border shadow border-2 p-3 me-2" style="background-color:white;">
+                                    <h2 class="h5 mb-3 mt-4">Escrituras</h2>
                                     <hr class="hr" />
                                     <div class="card mb-4" style="width: 100%;">
-                                        <iframe id="frame_ingresos" onClick="abrirEnlace()" class="" alt="..." style="width: 100%; height: 100%;">
-                                        </iframe>
-                                        <a href="#" id ="link_ingresos" target="_blank" class="text-tertiary me-3 mt-2">Ver Documento.</a>
-                                      <div class="card-body">
-                                        <hr class="hr" />
-                                        <div class="container">
-                                          <div class="row">
-                                            <div class="col">
-                                              <button title="Historial" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-info">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                                  <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                                                  <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                                                  <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                                                </svg>
-                                            </button>
-                                            </div>
-                                            <div class="col">
-                                             
-                                                <!-- El botón de archivo personalizado -->
-                                                <label for="Ingresos" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                </svg>
-                                                </label>
-                                                <!-- El input file oculto -->
-                                                <input type="file" class="file-input" id="Ingresos" accept="application/pdf">
-                                            </div>
-                                          </div>
+                                      {% comment %} <a id="link_escrituras" href="URL_DEL_ARCHIVO" target="_blank" style="width: 70%; height: 70%; margin-left: auto; margin-right: auto; margin-top: 25px;">
+                                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 170%;" >
+                                            <iframe src="" id="iframe_escrituras" class="w-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
                                         </div>
-                                      </div>
-                                    </div>
-                                    <div>
-                                      <span>Comentarios:</span>
-                                        <textarea class="form-control mb-2" placeholder="..." id="textarea" name="observaciones" rows="3"></textarea>
-                                    </div>
-                                  </div>
-
-                                  <div class="col border shadow border-2 me-2" style="background-color:white;">
-                                    <h2 class="h5 mb-3 mt-4">Auth. Buró </h2>
-                                    <hr class="hr" />
-                                    <div class="card mb-4" style="width: 100%;">
-                                        <iframe id="frame_buro" onClick="abrirEnlace()" class="" alt="..." style="width: 100%; height: 100%;">
-                                        </iframe>
-                                        <a href="#" id ="link_buro" target="_blank" class="text-tertiary me-3 mt-2">Ver Documento.</a>
+                                        <br>
+                                    </a> {% endcomment %}
+                                    
+                                    
+                                    
                                       <div class="card-body">
-                                        <hr class="hr" />
+                                        <hr class="hr"/>
                                         <div class="container">
                                           <div class="row">
                                             <div class="col">
-                                              <button title="Historial" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-info">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                                  <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                                                  <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                                                  <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                                                </svg>
+                                              <button title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-danger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                  </svg>
                                             </button>
                                             </div>
                                             <div class="col">
                                              
-                                                <!-- El botón de archivo personalizado -->
-                                                <label for="Buro" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                </svg>
-                                                </label>
-                                                <!-- El input file oculto -->
-                                                <input type="file" class="file-input" id="Buro" accept="application/pdf">
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div>
-                                      <span>Comentarios:</span>
-                                        <textarea class="form-control mb-2" placeholder="..." id="textarea" name="observaciones" rows="3"></textarea>
-                                    </div>
-                                  </div>
-
-                                  <div class="col border shadow border-2 me-2" style="background-color:white;">
-                                    <h2 class="h5 mb-3 mt-4">Rec. Laboral</h2>
-                                    <hr class="hr" />
-                                    <div class="card mb-4" style="width: 100%;">
-                                        <iframe id="frame_recomendacion_laboral" onClick="abrirEnlace()" class="" alt="..." style="width: 100%; height: 100%;">
-                                        </iframe>
-                                        <a href="#" id ="link_recomendacion_laboral" target="_blank" class="text-tertiary me-3 mt-2">Ver Documento.</a>
-                                      <div class="card-body">
-                                        <hr class="hr" />
-                                        <div class="container">
-                                          <div class="row">
-                                            <div class="col">
-                                              <button title="Historial" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-info">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                                  <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                                                  <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                                                  <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                                                </svg>
-                                            </button>
-                                            </div>
-                                            <div class="col">
-                                             
-                                                <!-- El botón de archivo personalizado -->
-                                                <label for="Recomendacion_laboral" title="Actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" class="btn btn-outline-success custom-file-input">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                                </svg>
-                                                </label>
-                                                <!-- El input file oculto -->
-                                                <input type="file" class="file-input" id="Recomendacion_laboral" accept="application/pdf">
                                             </div>
                                           </div>
                                         </div>
@@ -383,7 +539,8 @@
                                   </div>
                             </div>
                        
-                          <button type="submit" id="finalizar"  class="btn btn-secondary mt-2">Guardar Cambios</button>
+                          {% comment %} <button type="submit" id="finalizar"  class="btn btn-secondary mt-2">Guardar Cambios</button> {% endcomment %}
+                          {% comment %} <button type="button" onClick="enviar_datos()" class="btn btn-secondary mt-2">prueba conexion</button> {% endcomment %}
                     </div>
                  
                   </div>
@@ -397,14 +554,8 @@
     .file-input {
       display: none;
     }
-    .modal-xl{
-      max-width: 73% !important;
-      
-    }
     
     * {
-      
-     
         font-family: "Roboto";
     }
     body.swal2-shown > [aria-hidden="true"] {
@@ -413,13 +564,11 @@
       }
     body {
         background-color: #F5F5F5;
-        
     }
 
     .formchido {
         background-color: #FFFFFF;
         padding: 25px;
-        
     }
 
     table {
@@ -445,8 +594,6 @@
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-
-
     $(function () {
         $("form").keypress(function (e) {
             var key;
@@ -460,9 +607,11 @@
 
     $(document).ready(function() {
        
-       $('#archivos').modal({ keyboard: false,backdrop: false })
-       $('#archivos').modal('show');
+       $('#archivos1').modal({ keyboard: false,backdrop: false })
+       
+       $('#archivos1').modal('show');
       
+
     });
 
 const server = 'http://192.168.2.24:8001'
@@ -473,120 +622,126 @@ const configin = {
     },
   };
 
-const btnSubmit = document.getElementById("finalizar")
-btnSubmit.addEventListener("click", function (event) {
-    event.preventDefault();
+  const btnSubmit = document.getElementById("finalizar")
+  btnSubmit.addEventListener("click", function (event) {
+      event.preventDefault();
+  
+      var formData = new FormData();
+  
+      var fileInputElement1 = document.getElementById("Comp_dom")
+      var fileInputElement2 = document.getElementById("Ine")
+      var fileInputElement3 = document.getElementById("Rfc")
+      var fileInputElement4 = document.getElementById("Ingresos")
+      var fileInputElement5 = document.getElementById("Extras")
+      var fileInputElement6 = document.getElementById("Recomendacion_laboral")
+      var link = document.getElementById("Acta_constitutiva")
+      console.log(fileInputElement2.files)
+     
+      if (fileInputElement1.files.length == 1){
+        console.log("Comporbante No esta vacio")
+        formData.append("Comp_dom", fileInputElement1.files[0]);
+        enviar_datos(formData)
+      }
+      else{
+      console.log("Comporbante esta vacio")
+        //
+      }
+  
+      if (fileInputElement2.files.length == 1){
+        console.log("Ine No esta vacio")
+        formData.append("Ine", fileInputElement2.files[0]);
+        enviar_datos(formData)
+      }
+      else{
+      console.log("Ine esta vacio")
+      }
+  
+      if (fileInputElement3.files.length == 1){
+        console.log("RFC No esta vacio")
+        formData.append("Rfc", fileInputElement3.files[0])
+        enviar_datos(formData)
+      }
+      else{
+      console.log("RFC esta vacio")
+        
+      }
+      if (fileInputElement4.files.length == 1){
+        console.log("Ingresos No esta vacio")
+        console.log(fileInputElement4.files[0])
+  
+        formData.append("Ingresos", fileInputElement4.files[0]);
+        enviar_datos(formData)
+      }
+      else{
+      console.log("Ingresos esta vacio")
+        //
+      }
+      if (fileInputElement5.files.length == 1){
+        console.log("Extras No esta vacio")
+        formData.append("Extras", fileInputElement5.files[0]);
+        enviar_datos(formData)
+      }
+      else{
+      console.log("Extras esta vacio")
+        //
+      }
+      if (fileInputElement6.files.length == 1){
+        console.log("Recomendacion laboral No esta vacio")
+        formData.append("Recomendacion_laboral", fileInputElement6.files[0]);
+        enviar_datos(formData)
+      }
+      else{
+      console.log("Recomendacion laboral esta vacio")
+        //
+      }
 
-    var formData = new FormData();
-
-    var fileInputElement1 = document.getElementById("Comp_dom")
-    var fileInputElement2 = document.getElementById("Ine")
-    var fileInputElement3 = document.getElementById("Rfc")
-    var fileInputElement4 = document.getElementById("Ingresos")
-    var fileInputElement5 = document.getElementById("Buro")
-    var fileInputElement6 = document.getElementById("Recomendacion_laboral")
-    console.log(fileInputElement2.files)
-   
-    if (fileInputElement1.files.length == 1){
-      console.log("Comporbante No esta vacio")
-      formData.append("Comp_dom", fileInputElement1.files[0]);
-      enviar_datos(formData)
-    }
-    else{
-    console.log("Comporbante esta vacio")
-      //
-    }
-
-    if (fileInputElement2.files.length == 1){
-      console.log("Ine No esta vacio")
-      formData.append("Ine", fileInputElement2.files[0]);
-      enviar_datos(formData)
-    }
-    else{
-    console.log("Ine esta vacio")
-    }
-
-    if (fileInputElement3.files.length == 1){
-      console.log("RFC No esta vacio")
-      formData.append("Rfc", fileInputElement3.files[0])
-      enviar_datos(formData)
-    }
-    else{
-    console.log("RFC esta vacio")
-      
-    }
-    if (fileInputElement4.files.length == 1){
-      console.log("Ingresos No esta vacio")
-      formData.append("", fileInputElement4.files[0]);
-      enviar_datos(formData)
-    }
-    else{
-    console.log("Ingresos esta vacio")
-      //
-    }
-    if (fileInputElement5.files.length == 1){
-      console.log("Buro No esta vacio")
-      formData.append("Buro", fileInputElement5.files[0]);
-      enviar_datos(formData)
-    }
-    else{
-    console.log("Buro esta vacio")
-      //
-    }
-    if (fileInputElement6.files.length == 1){
-      console.log("Recomendacion laboral No esta vacio")
-      formData.append("Recomendacion_laboral", fileInputElement6.files[0]);
-      enviar_datos(formData)
-    }
-    else{
-    console.log("Recomendacion laboral esta vacio")
-      //
-    }
-if (fileInputElement6.files.length == 0 && fileInputElement5.files.length == 0 && fileInputElement4.files.length == 0 && fileInputElement3.files.length == 0 && fileInputElement2.files.length == 0 && fileInputElement1.files.length == 0 )
-{
-  Swal.fire({
-    icon: 'error',
-    title: 'Algo salio mal',
-    text: 'Documentos vacios, por favor adjunta alguno que desees actualizar!'
+      /*if (link){
+        console.log("Link AC No esta vacio")
+        formData.append("Acta_constitutiva", document.getElementById("Acta_constitutiva").value );
+        enviar_datos(formData)
+      }
+      else{
+      console.log("Recomendacion laboral esta vacio")
+        
+      }*/
+  if (fileInputElement6.files.length == 0 && fileInputElement5.files.length == 0 && fileInputElement4.files.length == 0 && fileInputElement3.files.length == 0 && fileInputElement2.files.length == 0 && fileInputElement1.files.length == 0 )
+  {
+    Swal.fire({
+      icon: 'error',
+      title: 'Algo salio mal',
+      text: 'Documentos vacios, por favor adjunta alguno que desees actualizar!'
+    })
+  }
+      //enviar_datos(formData)
   })
-}
-    //enviar_datos(formData)
-})
-
-
 
 function obtenerInquilino(){
     var datos = JSON.parse( localStorage.getItem('data_inquilino'))
-   
     console.log("detalles archivo",datos)
-   
     document.getElementById("inquilino").value = `${datos.id}`
     document.getElementById("inquilino_nombre").value = `${datos.nombre} ${datos.apellido} ${datos.apellido1}`
     
     comp = datos.archivos[0].Comp_dom
-    comp = `${server}/static${comp}`
-  
+   
     ine = datos.archivos[0].Ine
-    ine = `${server}/static${ine}`
     
     rfc = datos.archivos[0].Rfc
-    rfc = `${server}/static${rfc}`
-    
-    ingresos = datos.archivos[0].Ingresos
-    ingresos = `${server}/static${ingresos}`
+    //OPCIONALES
+    ingresos =  datos.archivos[0].Ingresos !== null ? datos.archivos[0].Ingresos : '/static/assets/img/icons/256.png';
+    rl =  datos.archivos[0].Recomendacion_laboral !== null ? datos.archivos[0].Recomendacion_laboral : '/static/assets/img/icons/256.png';
+    extra =  datos.archivos[0].Extras !== null ? datos.archivos[0].Extras : '/static/assets/img/icons/256.png';
 
-    buro = datos.archivos[0].Buro
-    buro = `${server}/static${buro}`
-
-    rl = datos.archivos[0].Recomendacion_laboral
-    rl = `${server}/static${rl}`
-
+   
     console.log(comp);
     console.log(ine);
     console.log(rfc);
     
+    
     document.getElementById("link_cd").href = comp;
+    document.getElementById("frame_cd").src = comp;
+
     document.getElementById("link_ine").href = ine;
+    document.getElementById("frame_ine").src = ine;
 
     document.getElementById("link_rfc").href = rfc;
     document.getElementById("frame_rfc").src = rfc;
@@ -594,13 +749,32 @@ function obtenerInquilino(){
     document.getElementById("link_ingresos").href = ingresos;
     document.getElementById("frame_ingresos").src = ingresos;
 
-    document.getElementById("link_buro").href = buro;
-    document.getElementById("frame_buro").src = buro;
-
+    document.getElementById("link_extras").href = extra;
+    document.getElementById("frame_extras").src = extra;
+   
+    if(datos.p_fom == "Persona Fisica"){
+    document.getElementById("div-rl").style.display = ''
     document.getElementById("link_recomendacion_laboral").href = rl;
     document.getElementById("frame_recomendacion_laboral").src = rl;
+    
+    }
 
-    } 
+    if(datos.p_fom == "Persona Moral"){
+      document.getElementById("div-ac").style.display = ''
+      ac = datos.archivos[0].Acta_constitutiva
+      document.getElementById("link_acta").href = ac;
+      document.getElementById("Acta_constitutiva").value = ac;
+    }
+    
+   /* var historial_predial = `
+                            <button type="button" class="btn btn-success px-3 align-self-center" id="ver_historial_predial" title="Ver historial" data-bs-toggle="tooltip" onclick="ver_historial('${datos.inquilino[0].id}', 'predial')">
+                                <i class="fas fa-eye text-white" aria-hidden="true"></i>
+                            </button> 
+                            `;
+
+    var rfcElement = document.getElementById("Rfc");
+    rfcElement.insertAdjacentHTML("beforebegin", historial_predial);*/
+} 
 
 
 function enviar_datos(formulario){
@@ -610,8 +784,10 @@ function enviar_datos(formulario){
   var r = document.getElementById("Rfc")
 
   var ingreso = document.getElementById("Ingresos")
-  var b = document.getElementById("Buro")
+  
+  var e = document.getElementById("Extras")
   var rl = document.getElementById("Recomendacion_laboral")
+  var ac = document.getElementById("Acta_constitutiva")
   console.log("datos viejos",datos)
   console.log("formulario",formulario)
 
@@ -627,59 +803,42 @@ function enviar_datos(formulario){
     datos_nuevos = datos
 
     if(i.files.length == 1){
-      console.log("ine")    
+         
     ine_nueva = respuesta.Ine  
-    ine = ine_nueva.split("/")
-    ine = "/" + ine[3] + "/" + ine[4] + "/" + ine[5] + "/" + ine[6] + "/" + ine[7] + "/" + ine[8] + "/" + ine[9] + "/" 
-    datos_nuevos.archivos[0].Ine = ine
+    datos_nuevos.archivos[0].Ine = ine_nueva
     }
 
     if(cd.files.length == 1){
-      console.log("Comporbante")    
+     
       comp_dom_nueva = respuesta.Comp_dom
-      comp_dom = comp_dom_nueva.split("/")
-      comp_dom = "/" + comp_dom[3] + "/" + comp_dom[4] + "/" + comp_dom[5] + "/" + comp_dom[6] + "/" + comp_dom[7] + "/" + comp_dom[8] + "/" + comp_dom[9] + "/";
-      datos_nuevos.archivos[0].Comp_dom = comp_dom
+      datos_nuevos.archivos[0].Comp_dom = comp_dom_nueva
       }
-
 
     if(r.files.length == 1){
-      console.log("rfc") 
-      info3 = "RFC"   
-      rfc_nueva = respuesta.Rfc 
-      rfc = rfc_nueva.split("/")
-      rfc = "/" + rfc[3] + "/" + rfc[4] + "/" + rfc[5] + "/" + rfc[6] + "/" + rfc[7] + "/" + rfc[8] + "/" + rfc[9] + "/" 
-      datos_nuevos.archivos[0].Rfc = rfc    
-      }
     
+      rfc_nueva = respuesta.Rfc 
+      datos_nuevos.archivos[0].Rfc = rfc_nueva 
+      }
   
     if(ingreso.files.length == 1){
-      console.log("ingresos")    
-    ingresos_nueva = respuesta.Ingresos
-    ing = ingresos_nueva.split("/")
-    ing = "/" + ing[3] + "/" + ing[4] + "/" + ing[5] + "/" + ing[6] + "/" + ing[7] + "/" + ing[8] + "/" + ing[9] + "/" 
-    datos_nuevos.archivos[0].Ingresos = ing
-    }
+      
+      ingresos_nueva = respuesta.Ingresos
+      datos_nuevos.archivos[0].Ingresos = ingresos_nueva
+      }
 
-    if(b.files.length == 1){
-      console.log("buro")    
-    b_nueva = respuesta.Buro
-    buro = b_nueva.split("/")
-    buro = "/" + buro[3] + "/" + buro[4] + "/" + buro[5] + "/" + buro[6] + "/" + buro[7] + "/" + buro[8] + "/" + buro[9] + "/" 
-    datos_nuevos.archivos[0].Buro = buro
-    }
+    if(e.files.length == 1){
+    e_nueva = 
+    datos_nuevos.archivos[0].Extras = e_nueva
+      }
 
     if(rl.files.length == 1){
       console.log("Recomendacion_laboral")    
     rl_nueva = respuesta.Recomendacion_laboral
-    rln = rl_nueva.split("/")
-    rln = "/" + rln[3] + "/" + rln[4] + "/" + rln[5] + "/" + rln[6] + "/" + rln[7] + "/" + rln[8] + "/" + rln[9] + "/" 
-    datos_nuevos.archivos[0].Recomendacion_laboral = rln
+   datos_nuevos.archivos[0].Recomendacion_laboral = rl_nueva
     }
 
 localStorage.setItem('data_inquilino', JSON.stringify(datos_nuevos));
-alerta()
-    
+alerta();
   })
   .catch(error => {
     console.error(error);
@@ -697,13 +856,37 @@ function alerta(){
   if (result.isConfirmed) {
       setTimeout(function(){
         location.reload()
-
-      }, 1000);
-   
-        
-        }
-      
+      }, 1000);        
+        }      
 })}
+
+
+function ver_historial(id, archivo){
+    $.ajax({
+        type: 'GET',
+        url: `${server}/HistorialDocumentosArrendadorViewSet/${id}/`,
+        //url: `http://127.0.0.1:8000/Inmuebles/`,
+        headers: {'X-CSRFToken': csrftoken},
+        mode: 'same-origin',
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            console.log(response); // handle the response from the server
+            var data = {
+                    datos: JSON.stringify(response),
+                    archivo: archivo
+                };
+
+            localStorage.setItem('historial', JSON.stringify(data));
+            //window.location = `/editar_inmuebles/${slug}/`;
+            window.location.href = `/historial/${archivo}/`
+        },
+        error: function(response) {
+            console.log(response);
+        }
+    });
+
+}
 </script>
 <script src="/static/assets/repositorios/loader.js"></script>
 <script>
@@ -712,7 +895,6 @@ function alerta(){
          console.log("entro inicio")
         auten()
     }
-   
 </script>
 {% endblock javascripts %}
 

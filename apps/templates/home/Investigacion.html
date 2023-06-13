@@ -1,0 +1,273 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Investigación {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div id="cargar_tabla" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
+    <div class="d-block mb-4 mb-md-0" style="margin-left:10px">
+        <h1 class="h1">Investigación</h1>
+        <p class="mb-0">Listado de Prospectos a Investigar</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a class="btn btn-primary mb-3 d-inline-flex align-items-center me-2">
+            Guardar Cambios
+        </a>
+    </div>
+  </div>
+
+
+  
+</div>
+<div class="table-settings mb-4">
+  <div class="row justify-content-between align-items-center">
+      <div class="col-9 col-lg-8 d-md-flex mt-2">
+          <div class="input-group me-2  me-lg-3 fmxw-300">
+              <span class="input-group-text">
+                  <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                  </svg>
+              </span>
+              <input type="text" class="form-control" placeholder="Buscar por Nombre">
+            </div>
+            <select class="form-select fmxw-200 d-none d-md-inline" aria-label="Message select example 2">
+                <option selected>Todos</option>
+              <option value="1">Persona Moral</option>
+              <option value="2">Persona Física</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="card card-body shadow border-0 table-wrapper table-responsive"><!-- podemos agregar la clase => table-responsive-->
+    <table class="table user-table align-items-center mb-5"> <!--id="datatable"-->
+        <thead>
+            <tr >
+                <th class="border-bottom justify-content-center" style="background:#231942ff; color:white;">Id Investigación</th>
+                <th class="border-bottom d-flex justify-content-center" style="background:#231942ff; color:white;">Usuario</th>
+                <th class="border-bottom justify-content-center" style="background:#231942ff; color:white;">Regimen Fiscal</th>						
+                <th class="border-bottom d-flex justify-content-center" style="background:#231942ff; color:white;">Estatus</th>
+                <th class="border-bottom border-end " style="background:#231942ff; color:white;">Documentos</th>
+               
+                <th scope="col" style="background:#f0bc74; color:black;">Si</th>
+                <th scope="col" style="background:#f0bc74; color:black;">No</th>
+                <th scope="col" style="background:#f0bc74; color:black;">Exepción</th>
+                <th scope="col" class="d-flex justify-content-center" style="background:#f0bc74; color:black;">Comentarios</th>
+                <th scope="col" style="background:#f0bc74; color:black;">acciones</th>
+
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr>
+                <td>
+                    <div class="form-check dashboard-check">
+                        1
+                    </div>
+                </td>
+                <td> <span class="fw-bold">Arrendatario 1</span></td>
+                <td>
+                    <span class="fw-bold">Përsona Fisica</span>
+                </td>
+                <td><span class="fw-normal">
+                        <select id="status{{inq.id}}" style="color:orange; font-weight:bold;" class="form-select" onChange="cambio_status(this)" aria-label="Default select example">
+                            <option selected value="En espera" style="color:orange; font-weight:bold;">En espera</option>
+                            <option value="Aprobado"  style="color:green; font-weight:bold;">Aprobado</option>
+                            <option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option>
+                        </select>
+                    </span>
+                </td>                        
+                <td class="border-bottom border-end">
+                    <p>Identificación</p>
+                    <p>Autorización</p>
+                    <p>Solicitud</p>
+                    <p>Estados.Cuenta</p>
+                    <p>Ingresos</p>
+                    <p>Carta Laboral</p>
+                </td>
+                
+                <td id="Yes">
+                    <div class="col">
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 45px;">
+                            <input class="form-check-input" type="radio" name="ine_check" value="Si" id="ine_si"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 30px;">
+                            <input class="form-check-input" type="radio" name="autorizacion_check" value="Si" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 15px;">
+                            <input class="form-check-input" type="radio" name="solicitud_check" value="Si" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input" type="radio" name="ec_check" value="Si" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; top: 15px;">
+                            <input class="form-check-input" type="radio" name="ingresos_check" value="Si" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; top: 30px;">
+                            <input class="form-check-input" type="radio" name="carta_check" value="" id="flexCheckDefault"></input>
+                        </div>
+                      
+                    </div>
+                  
+                 
+                </td>
+
+                <td id="Nop">
+                    <div class="col">
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 45px;">
+                            <input class="form-check-input" type="radio" name="ine_check" value="No" id="ine_no"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 30px;">
+                            <input class="form-check-input" type="radio" name="autorizacion_check" value="No" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 15px;">
+                            <input class="form-check-input" type="radio" name="solicitud_check" value="No" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input" type="radio" name="ec_check" value="No" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; top: 15px;">
+                            <input class="form-check-input" type="radio" name="ingresos_check" value="No" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; top: 30px;">
+                            <input class="form-check-input" type="radio" name="carta_check" value="No" id="flexCheckDefault"></input>
+                        </div>
+                      
+                    </div>
+                </td>
+
+                <td class="Exepto">
+                    <div class="col">
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 45px;">
+                            <input class="form-check-input" type="radio" name="ine_check" value="No" id="ine_no"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 30px;">
+                            <input class="form-check-input" type="radio" name="autorizacion_check" value="" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 15px;">
+                            <input class="form-check-input" type="radio" name="solicitud_check" value="" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center">
+                            <input class="form-check-input" type="radio" name="ec_check" value="" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; top: 15px;">
+                            <input class="form-check-input" type="radio" name="ingresos_check" value="" id="flexCheckDefault"></input>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; top: 30px;">
+                            <input class="form-check-input" type="radio" name="carta_check" value="" id="flexCheckDefault"></input>
+                        </div>
+                      
+                    </div>
+                </td>
+                
+                <td id="comentarios">
+                    <div class="input-text">
+                        <textarea class="form-control" placeholder="..." id="textarea" name="comentarios" rows="10"></textarea>
+                    </div>
+                </td>
+
+                <td id="acciones">
+                    <button type="button" class="btn btn-primary mb-3">Guardar</button>
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %} 
+<script>
+    function cambio_status(dato){
+      
+        if (dato.value == "En espera"){
+            console.log("datos en verde", dato)
+            dato.style.color= "orange"
+        }
+        if (dato.value == "Rechazado"){
+            console.log("en espera pa")
+            dato.style.color= "red"
+        }
+        if (dato.value == "Aprobado"){
+            console.log("en espera pa")
+            dato.style.color= "green"
+        }
+
+    }
+    function alert0(){
+        Swal.fire({
+            title: '¿Éstas seguro?',
+            text: "No podrás revertir esta acción",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, elimina esto',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+            '¡Eliminado!',
+            'Este inmueble ha sido eliminado',
+            'success'
+        )}
+    })}
+    function alert1(){
+        const swalWithBootstrapButtons = Swal.mixin({customClass: {
+            confirmButton: 'btn btn-success ms-3',
+            cancelButton: 'btn btn-danger me-3'
+        },
+        buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Guardar Datos',
+            text: "¿Estas seguro de que quieres continuar?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, guardar',
+            cancelButtonText: '!No, cancelar¡',
+            reverseButtons: true
+        }).then((result) => {
+        if (result.isConfirmed) {
+            swalWithBootstrapButtons.fire(
+            '¡Guardado con éxito!',
+            'Tus datos han sido guardados correctamente',
+            'success'
+        )} else if (
+        /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ){
+        swalWithBootstrapButtons.fire(
+            'Cancelado',
+            'Ésta acción ha sido cancelada',
+            'error'
+        )
+    }
+})}
+
+</script>
+
+{% endblock javascripts %}

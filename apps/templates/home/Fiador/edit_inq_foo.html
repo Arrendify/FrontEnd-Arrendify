@@ -1126,13 +1126,11 @@ function plantar()
    
 }
 async function enviar_datos(formulario){
-
    const response = await axios.put(`${server}/fiadores_obligados/${datos.slug}/`,datos,configin)
         console.log("response",response)
         setTimeout(() => {
             window.location.href ="/fiador_obligado/";
         }, "3000");
-        
 }
 </script>
 

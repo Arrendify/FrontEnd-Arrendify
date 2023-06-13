@@ -51,7 +51,7 @@
                 <th class="border-bottom">Nombre completo</th>						
                 <th class="border-bottom">Fecha de Registro</th>
                 <th class="border-bottom">Regimen Fiscal</th>
-                <th class="border-bottom">Estatus</th>
+               <!--<th class="border-bottom">Estatus</th> -->
                 <th class="border-bottom">Fiador</th>
                 <th class="border-bottom">Archivos</th>
                 <th class="border-bottom">Acción</th>
@@ -654,7 +654,7 @@
                             
                                 <div class="input-div">
                                     <label for="p_inquilino1">Parentesco</label>
-                                    <input class="form-control" id="p_inquilino1" name="p_inquilino1" type="text" placeholder="Parentesco" oninput="prueba2(this)"requerido>
+                                    <input class="form-control" id="p_inquilino1" name="p_inquilino1" type="text" value="Arrendatario"  oninput="prueba2(this)" requerido>
                                 </div>
                             </div> 
                         </div>
@@ -834,7 +834,7 @@
                         <hr class="hr" />
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" onChange="javascript:termino();prueba2(this)" value="ACEPTO" style="color:black; text-weight:bold;" id="tyc" name="tyc">
-                            <p style="color:black;padding-left:5px;">Aceptar los <a target="_blank" style="color:blue;" href="/tyc/">Términos y Condiciones</a></p>
+                            <p style="color:black;padding-left:5px;">He leído y acepto los <a target="_blank" style="color:blue;" href="/tyc/">términos y condiciones</a> de uso.</p>
                           </div>
                           
                           
@@ -908,11 +908,14 @@ function cred_vig(radio){
             arr.style.display='';
             bot.style.display='';
             
+            
         }
 
         if(radio.id=="cv_no") {
             arr.style.display='none';
             bot.style.display='';
+            document.getElementById("div-automotriz").style.display='none';
+            document.getElementById("div-hipotecario").style.display='none';
         }
 
         
@@ -1262,6 +1265,7 @@ document.getElementById("li1").onload = auten()
 
 // limpiamos el almacenamiento local cuando regresamos de ver los detalles de un inquilino
 localStorage.removeItem('data_inquilino')
+
     var data_inquilinos =[]
 // Configuracion general de axios
     const server = 'http://192.168.2.24:8001'
@@ -1295,7 +1299,7 @@ document.getElementById("cargar_tabla").onload = tabla()
             let col3 = document.createElement('td')
             let col4 = document.createElement('td')
             let col5 = document.createElement('td')
-            let col6 = document.createElement('td')
+        //    let col6 = document.createElement('td')
             let col7 = document.createElement('td')
             let col8 = document.createElement('td')
             let col9 = document.createElement('td')
@@ -1313,7 +1317,7 @@ document.getElementById("cargar_tabla").onload = tabla()
                               </a>`
             col4.innerHTML = `<span class="fw-normal ">${res[i].created}</span>`
             col5.innerHTML = `<span class="fw-normal ">${res[i].p_fom}</span>`
-            col6.innerHTML = ' <select id="status{{inq.id}}" style="color:green; font-weight:bold;" class="form-select" onChange="cambio_status(this)" aria-label="Default select example"><option value="Activo" selected style="color:green; font-weight:bold;"><span >Activo</span></option><option value="En espera" style="color:orange; font-weight:bold;">En espera</option><option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option></select>'
+           // col6.innerHTML = ' <select id="status{{inq.id}}" style="color:green; font-weight:bold;" class="form-select" onChange="cambio_status(this)" aria-label="Default select example"><option value="Activo" selected style="color:green; font-weight:bold;"><span >Activo</span></option><option value="En espera" style="color:orange; font-weight:bold;">En espera</option><option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option></select>'
            //condicion cuanto haya Aval o no
             if (!res[i].aval[0]){  
                 col7.innerHTML = `<span class="fw-normal ">No hay Fiador</span>`
@@ -1375,7 +1379,7 @@ document.getElementById("cargar_tabla").onload = tabla()
             tr.appendChild(col3);
             tr.appendChild(col4);
             tr.appendChild(col5);
-            tr.appendChild(col6);
+          //  tr.appendChild(col6);
             tr.appendChild(col7);
             tr.appendChild(col8);
             tr.appendChild(col9);
@@ -1466,7 +1470,8 @@ function checar(){
 
         if(!formulario.hasOwnProperty("no_inquilinos") ){
             formulario.no_inquilinos = '1'
-            formulario.n_inquilino1 = formulario.nombre+ " " + formulario.apellido + " " + formulario.apellido1 
+            formulario.n_inquilino1 = formulario.nombre+ " " + formulario.apellido + " " + formulario.apellido1
+            formulario.p_inquilino1 = "Arrendatario" 
         }
         
         enviar_datos(formulario)

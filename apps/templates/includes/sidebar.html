@@ -1,7 +1,8 @@
 <!--s
     s
     s-->
-    <nav style="background-color: #231942; overflow-x: hidden;"  id="sidebarMenu" class="sidebar d-lg-block bg-gray text-white collapse" data-simplebar>
+    
+    <nav id="nav1" style="background-color: #231942; overflow-x: hidden;"  id="sidebarMenu" class="sidebar d-lg-block bg-gray text-white collapse" data-simplebar>
         <div style="background-color: #231942;overflow-x: hidden;" class="sidebar-inner px-4 pt-3">
             <div class="user-card d-flex d-md-none justify-content-between justify-content-md-center pb-4">
             <div class="d-flex align-items-center">
@@ -278,8 +279,8 @@
                 <span class="sidebar-text">Cotizaciones</span>
                 </a>
             </li>
-    
-            <li class="nav-item {% if 'user_list.html' in segment %} active {% endif %}">
+            
+            <li class="nav-item {% if 'usert.html' in segment %} active {% endif %}">
                 <a href="/user_list.html" class="nav-link">
                 <span class="sidebar-icon">
                     <svg class="icon icon-xs me-2" fill="gray" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>
@@ -287,6 +288,12 @@
                 <span class="sidebar-text">Listado de Usuarios</span>
                 </a>
             </li>
+
+            <li id="inv" class="nav-item {% if 'user_list.html' in segment %} active {% endif %}">
+             
+            </li>
+
+          
     
             {% comment %} <li class="nav-item {% if 'users.html' in segment %} active {% endif %}">
                 <a href="/users.html" class="nav-link">
@@ -342,6 +349,7 @@
                     <span class="sidebar-text">Perfil</span>
                 </a>
             </li>
+
             {% comment %} <li class="nav-item {% if 'calendar.html' in segment %} active {% endif %}">
                 <a href="/calendar.html" class="nav-link">
                     <span class="sidebar-icon">
@@ -530,9 +538,9 @@
                       </svg> 
                   </span>
                   <span class="sidebar-text">Logout</span>
+                 
               </a>
             </li>  
-    
             <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
             <li class="nav-item">
                 <a href="/contacto.html"
@@ -549,4 +557,24 @@
             </ul>
         </div>
     </nav>
-    
+<script>
+     let tok = localStorage.getItem('token')
+     let us =  JSON.parse(localStorage.getItem('usuario'));  
+        document.getElementById("nav1").onload = usurero()
+     function usurero()
+    {
+        if(us.username == "Arrendatario1" || us.username == "Legal" || us.username == "Ventas"){
+           
+            let inve = document.getElementById("inv");
+            inve.innerHTML = ` <li class="nav-item {% if 'user_list.html' in segment %} active {% endif %}">
+                <a href="/investigacion/" class="nav-link">
+                <span class="sidebar-icon">
+                    <svg class="icon icon-xs me-2" fill="gray" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>
+                </span>
+                <span class="sidebar-text">Investigación</span>
+                </a>
+            </li>`
+
+        }
+    }
+</script>

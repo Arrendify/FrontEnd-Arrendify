@@ -1,0 +1,234 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Inquilinos {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="/static/assets/css/ms.css" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block content %}
+<p id="carga_plantar" style="display:none;">
+<p id="li1" style="display:none;">
+<div id="cargar_tabla" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
+    <div class="d-block mb-4 mb-md-0" style="margin-left:10px">
+        <h1 class="h1">Investigación </h1>
+        <p class="mb-0">Listado de Prospectos a investigar</p>
+    </div>
+    
+  </div>
+
+</div>
+<form id="formbusqueda">
+<div class="table-settings mt-2 mb-4">
+  <div class="row justify-content-between align-items-center">
+      <div class="col-9 col-lg-8 d-md-flex">
+          <div class="input-group mt me-2 me-lg-2 fmxw-300">
+              <span class="input-group-text">
+                  <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                  </svg>
+              </span>
+    <input type="text" class="form-control" name="busqueda_nombre" id="busqueda_nombre" placeholder="Buscar por Nombre">
+</div>
+<button class="btn btn-primary me-3" onClick="tabla()" type="button" >Buscar</button>
+</form>
+            <select class="form-select fmxw-200 d-none d-md-inline" aria-label="Message select example 2">
+                <option selected>Todos</option>
+              <option value="1">Persona Moral</option>
+              <option value="2">Persona Física</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="card card-body shadow border-0 table-wrapper table-responsive"><!-- podemos agregar la clase => table-responsive-->
+    <table  class="table user-table table-hover align-items-center mb-5"> <!--id="datatable"-->
+        <thead>
+            <tr>
+                <th class="justify-content-center" style="background:#231942ff; color:white;">Id Investigación</th>
+                <th class="d-flex justify-content-center" style="background:#231942ff; color:white;">Prospecto</th>
+                <th class="justify-content-center" style="background:#231942ff; color:white;">Regimen Fiscal</th>						
+                <th class="" style="background:#231942ff; color:white; text-align:center">Estatus </th>
+                <th class="d-flex justify-content-center border-end " style="background:#231942ff; color:white; margin-left:auto; margin-right:auto;">Documentos</th>
+               
+               
+            </tr>
+        </thead>
+        <tbody id="table_body">
+               
+        </tbody>
+        
+    </table>
+    
+</div>
+
+        
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %} 
+<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/assets/repositorios/loader.js"></script>
+<script>
+
+    $( "#formbusqueda" ).on( "submit", function( event ) {
+        tabla()
+  event.preventDefault();
+        
+      });
+
+// Primero verificamos al usuario autenticado
+document.getElementById("li1").onload = auten()
+
+// limpiamos el almacenamiento local cuando regresamos de ver los detalles de un inquilino
+localStorage.removeItem('data_investigacion')
+
+    
+// Configuracion general de axios
+
+    const server = 'http://192.168.2.24:8001'
+    const configin = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        },
+      }; 
+
+      
+      // Despues carcamos la tabla de usuarios
+    document.getElementById("cargar_tabla").onload = tabla()
+    // Comenzamos funciones
+    function tabla(){
+        //Inicia Filtro
+        busqueda_nombre = document.getElementById("busqueda_nombre").value
+        let configin = {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        },
+        'params':{nombre: busqueda_nombre},
+        }; 
+      
+        var cuerpo = document.getElementById("table_body")
+        cuerpo.innerHTML="";
+      //Finaliza Filtro
+         axios.get(`${server}/investigacion/`,configin)
+            .then(function (response) { 
+            data_investigacion = response.data
+            // manejar respuesta exitosa
+            var cuerpo = document.getElementById("table_body")
+            
+            let res = response.data
+            if(res.length > 0 ){
+            console.log("res",res)
+    
+            for(let i = 0; i < res.length;i++)
+        {
+            let tr = document.createElement('tr')
+            let col1 = document.createElement('td')
+            let col2 = document.createElement('td')
+            let col3 = document.createElement('td')
+            let col4 = document.createElement('td')
+            let col5 = document.createElement('td')
+        //    let col6 = document.createElement('td')
+            let col7 = document.createElement('td')
+            let col8 = document.createElement('td')
+            let col9 = document.createElement('td')
+            let check = document.createElement("input")
+            check.setAttribute("type","checkbox");
+            check.setAttribute("class","form-check-input");
+
+            col1.innerHTML = `<span class="fw-normal d-flex justify-content-center" >${res[i].id}</span>`
+            col2.innerHTML = `<a class="d-flex align-items-center">
+                <div class="d-block">
+                  <span class="fw-bold" onClick="ver_detalles(${res[i].id})">${res[i].inquilino.nombre + " " +res[i].inquilino.apellido + " " + res[i].inquilino.apellido1}</span>
+                  <div class="small text-gray">${res[i].inquilino.email}</div>
+                </div>
+                </a>`
+           
+            col3.innerHTML = `<span class="fw-normal ">${res[i].inquilino.p_fom}</span>`
+            // color del texto segun el estatus
+            if(res[i].status == "En espera"){
+                col4.innerHTML = `<span class="fw-normal d-flex justify-content-center" ><button type="button" class="btn btn-warning" style="color:black; background-color:orange" >${res[i].status}</button></span>`
+            }
+            if(res[i].status == "Aprobado"){
+                col4.innerHTML = `<span class="fw-normal d-flex justify-content-center"><button type="button" class="btn btn-success" style="color:white; background-color:green" >${res[i].status}</button></span>`
+            }
+            if(res[i].status == "Rechazado"){
+                col4.innerHTML = `<span class="fw-normal d-flex justify-content-center" ><button type="button" class="btn btn-danger" style="color:white; background-color:red" >${res[i].status}</button></span>`
+            }
+
+            if(res[i].inquilino.archivos[0]){
+                if(res[i].inquilino.archivos[0].Ine){
+                let s1 = "Ine"
+                if(res[i].inquilino.archivos[0].Comp_dom){
+                    let s2 = "Comp. Dom."
+                    if(res[i].inquilino.archivos[0].Rfc){
+                        let s3 = "Rfc"
+                        
+                        if(res[i].inquilino.archivos[0].Ingresos){
+                            let s4 = "Comp.Ingresos"
+                            if(res[i].inquilino.archivos[0].Recomendacion_laboral){
+                                let s5 = "Carta Rec. Laboral"
+                                col5.innerHTML = `<span class="fw-normal ">${s1}, ${s2}, ${s3},${s4}, ${s5}</span>`
+                                
+                            }
+                            else{
+                                let s5 = "Sin Carta Rec. Laboral"
+                                col5.innerHTML = `<span class="fw-normal ">${s1}, ${s2}, ${s3},${s4}, ${s5}</span>`
+                            }
+                            }                                                    
+                        }
+                    }
+                }
+                
+            }
+            else{
+                col5.innerHTML = `<span class="fw-normal ">No tiene Archivos</span>`
+            }
+                      
+            tr.appendChild(col1);
+            tr.appendChild(col2);
+            tr.appendChild(col3);
+            tr.appendChild(col4);
+            tr.appendChild(col5);
+          //  tr.appendChild(col6);
+            cuerpo.appendChild(tr);
+        }
+            console.log(response);
+        } else{
+            cuerpo.innerHTML = '<td colspan="7"><center><h1>Sin Registro <img src="https://cdn-icons-png.flaticon.com/512/929/929457.png"style="width:50px;height:50px"></h1></center></td>'
+            console.log("sin datos")
+        } 
+        })
+          .catch(function (error) {
+            // manejar error
+            console.log(error);
+          })
+          .finally(function () {
+            // siempre sera executado
+          });
+}
+
+function ver_detalles(id){
+    console.log("data_investigacion",data_investigacion)
+    let info = data_investigacion.filter(inquilino=>inquilino.id==id)
+    localStorage.setItem('data_investigacion', JSON.stringify(info[0]));
+    console.log("local",localStorage)
+    console.log("info",info)
+    window.location.href = `/checklist_investigacion/`
+}
+
+
+</script>
+<script src="/static/assets/repositorios/loader.js"></script>
+<script>
+    document.getElementById("li2").onload = inicio()
+    function inicio(){
+        auten()
+    }
+   
+</script>
+{% endblock javascripts %}

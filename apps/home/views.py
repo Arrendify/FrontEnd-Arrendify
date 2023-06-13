@@ -51,6 +51,12 @@ def path_foo_detalles(request,slug):
 def path_foo_edit(request,slug):
     return render(request, 'home/Fiador/edit_inq_foo.html', {
     })    
+def path_archivos_fia(request,id):
+    return render(request, 'home/Fiador/archivos_fiador.html', {
+    })
+def path_detalles_archivos_fia(request,id):
+    return render(request, 'home/Fiador/detalles_archivos.html', {
+    })
  
 def path_inmuebles(request):
     return render(request, 'home/inmuebles.html', {
@@ -60,12 +66,20 @@ def path_doc_inquilino(request):
     })   
 
 def prueba(request):
-    return render(request, 'home/datos_arren.html', {
+    return render(request, 'home/prueba.html', {
     })   
 def tyc(request):
     return render(request, 'home/Terminos.html', {
     })  
-
+#================investigacion=================
+def path_investigacion(request):
+    return render(request, 'home/Investigacion/investigacion_lista.html', {
+    })
+    
+def path_check_investigacion(request):
+    return render(request, 'home//Investigacion/investigacion-api.html', {
+    })
+    
 def pages(request):
     context = {}
     # All resource paths end in .html.

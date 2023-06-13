@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Inquilinos - Documentos {% endblock %} 
+{% block title %} Fiador - Documentos {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -11,13 +11,13 @@
 <body onload="obtenerInquilino()">
 <div id="li2" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
     <div class="d-block mb-4 mb-md-0" style="margin-left:10px">
-        <h1 class="h1">Inquilinos</h>
-        <p class="mb-0">Listado de inquilinos</p>
+        <h1 class="h1">Fiadores/Obligados </h1>
+        <p class="mb-0">Listado de Fiadores/Obligados Registrados</p>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a href="#" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center me-2">
             <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-            Nuevo Inquilino
+            Nuevo Fiador/Obligado
         </a>
     </div>
   </div>
@@ -111,8 +111,8 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" style="height:15px" id="exampleModalLabel">Archivos Inquilino</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="location.href='/inquilinos/';" aria-label="Close"></button>
+            <h5 class="modal-title" style="height:15px" id="exampleModalLabel">Archivos FUO</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="location.href='/fiador_obligado/';" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="background:linear-gradient(0deg, #231942ff, #5e548eff, #9f86c0ff, #be95c4ff, #e0b1cbff);">
             <body>
@@ -125,9 +125,9 @@
                                 Nota: <strong><p>Todos los archivos deben de esta en formato .PDF </p></strong>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label>Inquilino: </label>
-                                <input id="inquilino" name="inquilino"  type="text" style="display:none"  readonly>
-                                <input class="form-control-plaintext card shadow border-1 ps-1" id="inquilino_nombre" type="text" value="{{ arrendador.nombre_notario_ac}}"  readonly>
+                                <label>Fiador u Obligado: </label>
+                                <input id="Fiador" name="Fiador"  type="text" style="display:none"  readonly>
+                                <input class="form-control-plaintext card shadow border-1 ps-1" id="fiador_nombre" type="text" value="{{ arrendador.nombre_notario_ac}}"  readonly>
                             </div> 
                         </div> 
                         <hr class="hr" />
@@ -139,28 +139,15 @@
                               <label for="url_ine" class="form-label">Identificación Oficial Vigente (Pasaporte/INE/Cédula Profesional)</label>
                               <input class="form-control"  id="Ine" name="Ine" accept="application/pdf" type="file" placeholder="URL">
                           </div>
-                          <div class="mb-3">
-                              <label for="url_situacion_fiscal" class="form-label">Constancia de Situación Fiscal</label>
-                              <input class="form-control"  id="Rfc" name="Rfc" accept="application/pdf" type="file" placeholder="URL">
-                          </div>
-    
                             <div class="mb-3" id="div-ingresos">
                                 <label for="url_situacion_fiscal" class="form-label">Comprobante De Ingreso (Recibos de nomina o Estados de cuenta)</label>
-                                <input class="form-control"  id="Ingresos" accept="application/pdf" name="Ingresos" type="file" placeholder="URL">
+                                <input class="form-control"  id="Estado_cuenta" name="Estado_cuenta" accept="application/pdf" type="file" placeholder="URL">
                             </div>
-                            <div class="mb-3" id="div-ac" style="display:none;">
-                                <label for="url_situacion_fiscal" class="form-label">Link del archivo de Acta Constitutiva(Google Drive, Mega, ETC)</label>
-                                <input class="form-control"  id="Acta_constitutiva" name="Acta_constitutiva"  type="text" placeholder="URL">
+                            <div class="mb-3" id="div-escrituras">
+                                <label for="url_situacion_fiscal" class="form-label">Escritura De Su Propiedad</label>
+                                <input class="form-control"  id="Escrituras" name="Escrituras" accept="application/pdf" type="file" placeholder="URL">
                             </div>
-                            <div class="mb-3" id="div-crl">
-                                <label for="url_situacion_fiscal" class="form-label">Carta De Recomendacion Laboral</label>
-                                <input class="form-control"  id="Recomendacion_laboral" name="Recomendacion_laboral" accept="application/pdf" type="file" placeholder="URL">
-                            </div>
-                            <p>Nota. En caso que le soliciten subir un documento en especial, hagalo en este espacio</p>
-                            <div class="mb-3" id="div-extras">
-                                <label for="url_situacion_fiscal" class="form-label">Documentos Extra</label>
-                                <input class="form-control"  id="Extras" name="Extras" accept="application/pdf" type="file" placeholder="URL">
-                            </div>
+                         
                          
                           {% csrf_token %}
                           <button type="submit" id="finalizar"  class="btn btn-primary">Subir Archivos</button>
@@ -229,6 +216,7 @@
     $(document).ready(function() {
        
        $('#archivos').modal({ keyboard: false,backdrop: false })
+       
        $('#archivos').modal('show');
       
 
@@ -250,71 +238,44 @@ btnSubmit.addEventListener("click", function (event) {
     var formData = new FormData();
     var fileInputElement1 = document.getElementById("Comp_dom")
     var fileInputElement2 = document.getElementById("Ine")
-    var fileInputElement3 = document.getElementById("Rfc")
-    
-    var ingreso = document.getElementById("Ingresos")
-    var extras = document.getElementById("Extras")
-    var rec_lab = document.getElementById("Recomendacion_laboral")
-
-    console.log("ingreso",ingreso.files[0])
-    console.log("extras",extras.files[0])
-    console.log("Recomendacion_laboral",rec_lab.files[0])
+    var fileInputElement3 = document.getElementById("Estado_cuenta")
+    var fileInputElement4 = document.getElementById("Escrituras")
 
     formData.append("Comp_dom", fileInputElement1.files[0]);
     formData.append("Ine", fileInputElement2.files[0]);
-    formData.append("Rfc", fileInputElement3.files[0]);
-    formData.append("Ingresos", ingreso.files[0]);
-    formData.append("Extras", extras.files[0]);
-    formData.append("Recomendacion_laboral", rec_lab.files[0]);
-    formData.append("Acta_constitutiva", document.getElementById("Acta_constitutiva").value );
-    formData.append("inquilino", document.getElementById("inquilino").value );
-    console.log(formData.getAll('Acta_constitutiva'))
-    console.log(document.getElementById("Acta_constitutiva").value)
-    var next = true
-    if(fileInputElement1.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'Comprobante De Docmicilio es obligatorio!'
-          })
-          next= false
-
+  
+    if(fileInputElement3.files.length == 1){
+        console.log(fileInputElement3.files)
+        formData.append("Estado_cuenta", fileInputElement3.files[0]);
     }
-    if(fileInputElement2.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'INE es obligatorio!'
-          })
-          next= false
-
+    if(fileInputElement4.files.length == 1){
+        console.log(fileInputElement4.files)
+        formData.append("Escrituras", fileInputElement4.files[0]);
     }
-    if(fileInputElement3.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'RFC es obligatorio!'
-          })
-          next= false
-
-    }
-
-    if(ingreso.files.length == 0){
-        Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal',
-            text: 'Comprobante de ingresos es obligatorio!'
-          })
-          next= false
-
-    }
-   
-    if(next)enviar_datos(formData)
     
+    formData.append("Fiador", document.getElementById("Fiador").value );
+    
+    console.log(formData.getAll("Fiador"))
+    console.log(formData.getAll("Escrituras"))
+    console.log(formData.getAll("Estado_cuenta"))
+    console.log(formData.getAll("Ine"))
+    console.log(formData.getAll("Comp_dom"))
+
+    if(fileInputElement2.files.length == 0 && fileInputElement1.files.length == 0 || fileInputElement2.files.length == 1 && fileInputElement1.files.length == 0 || fileInputElement2.files.length == 0 && fileInputElement1.files.length == 1 ){
+        Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal',
+            text: 'Ine y Comprobante de domicilio son obligatorios!'
+          })
+    }
+    else{
+        console.log("vamos a enviar")
+        enviar_datos(formData)
+    }
 })
 
 async function enviar_datos(formulario){
-    const response = await axios.post(`${server}/documentos_reg/`,formulario,configin)
+    const response = await axios.post(`${server}/documentos_foo/`,formulario,configin)
     console.log("response",response)
     Swal.fire({
         icon: 'success',
@@ -323,24 +284,28 @@ async function enviar_datos(formulario){
     })
     
     setTimeout(() => {
-        window.location.href = `/inquilinos/`
+        window.location.href = `/fiador_obligado/`
     }, "2000");
     
 }
 
 
 function obtenerInquilino(){
-    var datos = JSON.parse( localStorage.getItem('data_inquilino'))
+    var datos = JSON.parse( localStorage.getItem('data_fiador'))
     console.log(datos)
-    document.getElementById("inquilino").value = `${datos.id}`
-    document.getElementById("inquilino_nombre").value = `${datos.nombre} ${datos.apellido} ${datos.apellido1}`
-    // ocultar documentos para pf o para pm
-        if(datos.p_fom == "Persona Moral"){
-        document.getElementById("div-crl").style.display = 'none'
-        document.getElementById("div-ac").style.display = ''
+    console.log(datos.id)
+        if(datos.fiador_obligado == "Fiador Solidario"){
+        document.getElementById("div-ingresos").style.display = 'none'
+        document.getElementById("Fiador").value = `${datos.id}`
+        document.getElementById("fiador_nombre").value = `${datos.n_fiador} ${datos.a_fiador} ${datos.a2_fiador}`
+        // ocultar documentos para pf o para pm
 
         }
-
+        if(datos.fiador_obligado == "Obligado Solidario Persona Fisica" || datos.fiador_obligado == "Obligado Solidario Persona Moral"){
+            document.getElementById("div-escrituras").style.display = 'none';
+            document.getElementById("Fiador").value = `${datos.id}`;
+            document.getElementById("fiador_nombre").value =  datos.fiador_obligado == "Obligado Solidario Persona Fisica" ? `${datos.n_fiador} ${datos.a_fiador} ${datos.a2_fiador}` : `${datos.nombre_comercial}`;
+        }
     } 
 
 </script>

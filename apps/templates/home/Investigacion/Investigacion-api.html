@@ -1,0 +1,265 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Investigación {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div id="cargar_tabla" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4" style="background-color:#edede9;">
+    <div class="d-block mb-4 mb-md-0" style="margin-left:10px">
+        <h1 class="h1">Investigación</h1>
+        <p class="mb-0">Listado de Prospectos a Investigar</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a class="btn btn-primary mb-3 d-inline-flex align-items-center me-2">
+            Guardar Cambios
+        </a>
+    </div>
+  </div>
+
+
+  
+</div>
+<div class="table-settings mb-4">
+  <div class="row justify-content-between align-items-center">
+      <div class="col-9 col-lg-8 d-md-flex mt-2">
+         
+    </div>
+</div>
+<div class="card card-body shadow border-0 table-wrapper table-responsive"><!-- podemos agregar la clase => table-responsive-->
+    <table class="table user-table align-items-center mb-5"> <!--id="datatable"-->
+        <thead>
+            <tr >
+                <th class="border-bottom d-flex justify-content-center" style="background:#231942ff; color:white;">Prospecto</th>
+                <th class="border-bottom justify-content-center" style="background:#231942ff; color:white;">Regimen Fiscal</th>						
+                <th class="border-bottom d-flex justify-content-center" style="background:#231942ff; color:white;">Estatus</th>
+                <th class="border-bottom border-end " style="background:#231942ff; color:white;">Documentos</th>
+               
+                <th scope="col" style="background:#f0bc74; color:black;">¿Cumple?</th>
+                <th scope="col" class="d-flex justify-content-center" style="background:#f0bc74; color:black;">Comentarios</th>
+                <th scope="col" style="background:#f0bc74; color:black;">acciones</th>
+
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr>
+                
+                <td> <span class="fw-bold" id="prospecto"></span></td>
+                <td>
+                    <span class="fw-bold" id="regimen"></span>
+                </td>
+                <td><span class="fw-normal">
+                        <select id="status" name="status" style="color:orange; font-weight:bold;" class="form-select" onChange="javascript:cambio_status(this); prueba2(this);" aria-label="Default select example">
+                            <option id="valor1" value="" style="color:orange; font-weight:bold;"></option>
+                            <option value="En espera" style="color:orange; font-weight:bold;">En espera</option>
+                            <option value="Aprobado"  style="color:green; font-weight:bold;">Aprobado</option>
+                            <option value="Rechazado" style="color:red; font-weight:bold;">Rechazado</option>
+                        </select>
+                    </span>
+                </td>                        
+                <td class="border-bottom border-end">
+                    <p>Identificación</p>
+                    <p>Autorización</p>
+                    <p>Solicitud</p>
+                    <p>Estados.Cuenta</p>
+                    <p>Ingresos</p>
+                    <p>Carta Laboral</p>
+                </td>
+            
+                <td class="cumple">
+                    <div class="col mt-2" >
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 25px;">
+                            <select id="identificacion" name="identificacion" onChange="prueba2(this);" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option id="select1" value="" ></option>
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                                <option value="Excepcion">Excepcion</option>
+                              </select>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 20px;">
+                            <select id="autorizacion" name="autorizacion" onChange="prueba2(this);" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option id="select2" value="" selected></option>
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                                <option value="Excepcion">Excepcion</option>
+                              </select>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 15px;">
+                            <select id="solicitud" name="solicitud" onChange="prueba2(this);" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option id="select3" value="" selected></option>
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                                <option value="Excepcion">Excepcion</option>
+                              </select>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 10px;">
+                            <select id="estado_cuenta" name="estado_cuenta" onChange="prueba2(this);" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option id="select4" value="" selected></option>
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                                <option value="Excepcion">Excepcion</option>
+                              </select>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 5px;">
+                            <select id="ingresos" name="ingresos" onChange="prueba2(this);" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option id="select5" value="" selected></option>
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                                <option value="Excepcion">Excepcion</option>
+                              </select>
+                        </div>
+
+                        <div class="form-check d-flex justify-content-center" style="position: relative; bottom: 0px;">
+                            <select id="carta_laboral" name="carta_laboral" onChange="prueba2(this);" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option id="select6" value="" selected></option>
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                                <option value="Excepcion">Excepcion</option>
+                              </select>
+                        </div>
+                    </div>
+                </td>
+                
+                <td id="div-comentarios">
+                    <div class="input-text">
+                        <textarea id="comentarios" name="comentarios" oninput="prueba2(this);" class="form-control" placeholder="..." id="textarea" name="comentarios" rows="10"></textarea>
+                    </div>
+                </td>
+
+                <td id="acciones">
+                    <button type="button" id="guardar" class="btn btn-primary mb-3">Guardar</button>
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %} 
+<script>
+    const arr ={};
+    var datos = JSON.parse( localStorage.getItem('data_investigacion'))
+    const server = 'http://192.168.2.24:8001'
+    const configin = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Token ${localStorage.getItem('token')}`
+        },
+    }; 
+    
+    document.getElementById("cargar_tabla").onload = plantar();
+    
+    function cambio_status(dato){
+      
+        if (dato.value == "En espera"){
+            console.log("datos en verde", dato)
+            dato.style.color= "orange"
+        }
+        if (dato.value == "Rechazado"){
+            console.log("en espera pa")
+            dato.style.color= "red"
+        }
+        if (dato.value == "Aprobado"){
+            console.log("en espera pa")
+            dato.style.color= "green"
+        }
+
+    }
+    
+    function plantar()
+    {
+        console.log("soy datos",datos)
+        console.log(datos.id)
+        //prospecto
+        document.getElementById("prospecto").textContent = datos.inquilino.nombre + " " + datos.inquilino.apellido + " " + datos.inquilino.apellido1
+        //regimen
+        document.getElementById("regimen").textContent = datos.inquilino.p_fom
+        //status
+        document.getElementById("valor1").textContent = datos.status
+        document.getElementById("valor1").value = datos.status
+        // identificacion
+        document.getElementById("select1").textContent = datos.identificacion
+        document.getElementById("select1").value = datos.identificacion
+        // autorizacion
+        document.getElementById("select2").textContent = datos.autorizacion
+        document.getElementById("select2").value = datos.autorizacion
+        // solicitud
+        document.getElementById("select3").textContent = datos.solicitud
+        document.getElementById("select3").value = datos.solicitud
+        // estado_cuenta
+        document.getElementById("select4").textContent = datos.estado_cuenta
+        document.getElementById("select4").value = datos.estado_cuenta
+        // ingresos
+        document.getElementById("select5").textContent = datos.ingresos
+        document.getElementById("select5").value = datos.ingresos
+        // carta_laboral
+        document.getElementById("select6").textContent = datos.carta_laboral
+        document.getElementById("select6").value = datos.carta_laboral
+        // comentarios
+        document.getElementById("comentarios").value = datos.comentarios
+    }
+    function prueba2(val){
+        console.log(val.name)
+        arr[""+val.name] = '' +val.value
+        arr2 = val.name;
+        console.log(arr)
+    }
+    function recopilar()
+    {
+    // Obtener y Guardar el valor del input en localStorage
+    console.log("estoy en guardar",JSON.stringify(arr))
+    localStorage.setItem('data_investigacion', JSON.stringify(arr));
+    
+    }
+// function registro
+const btnSubmit = document.getElementById("guardar")
+let formulario = {};
+
+btnSubmit.addEventListener("click", function (event) {
+    event.preventDefault();
+
+
+    console.log("Investigacion")
+    recopilar()
+    formulario = JSON.parse(localStorage.getItem('data_investigacion'));
+    
+    console.log("viewform",formulario)
+    console.log("identificacion",formulario.hasOwnProperty("identificacion"))
+
+    
+    enviar_datos(formulario)
+   
+
+   setTimeout(() => {
+       window.location.href="/investigacion/"
+   }, "2500");
+   
+})
+
+async function enviar_datos(formulario){
+    const response = await axios.put(`${server}/investigacion/${datos.id}/`,formulario,configin)
+    console.log("response",response)
+    Swal.fire(
+    'Excelente!',
+    'Cambios realizados correctamente!',
+    'success'
+    )
+}
+
+</script>
+
+{% endblock javascripts %}

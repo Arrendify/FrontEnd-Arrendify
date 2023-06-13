@@ -1,10 +1,10 @@
 {% extends "layouts/base.html" %}
 {% csrf_token %}
-{% block title %} Cotizador personalizado {% endblock %} 
+{% block title %} Terminos y condiciones {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-<link href="/static/assets/css/estilos.css" rel="stylesheet"/>
+
 {% endblock stylesheets %}
 
 {% block content %}
@@ -27,12 +27,12 @@
                     
                     <div class="col-12 col-lg-4">
                         <div class="github-big-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-basket3-fill" viewBox="0 0 16 17">
-                                    <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.468 15.426.943 9h14.114l-1.525 6.426a.75.75 0 0 1-.729.574H3.197a.75.75 0 0 1-.73-.574z"/>
+                                <svg width="650" height="650" fill="currentColor">
+                                    <image xlink:href="/static/assets/img/brand/candado.svg" width="650" height="650" />
                                   </svg>
-                              </svg>
                         </div>
                 </div>
+               
                 <div  class="row mt-5 ">
                      {% comment %} Inicio de la carta {% endcomment %}
                     <div style="margin-top:15px;" class="col-12 col-md-6 col-lg-4 mb-5 mb-lg-0">
@@ -40,80 +40,31 @@
                             <!-- Header -->
                             <div class="card-header bg-white border-0 pb-0">
                                 <span class="d-block">
-                                    <span class="h2 text-primary fw-bold align-top ">Terminos</span>
+                                    {% comment %} <span class="h2 text-primary fw-bold align-top ">Terminos</span> {% endcomment %}
                                 </span>
                             </div>
                             <!-- End Header -->
                             <!-- Content -->
                             <div style="margin-bottom:26px" class="card-body">
-                                <p> Esta página web es propiedad y está operado por Arrendify. </p> 
-                                <p>Estos Términos establecen los términos y condiciones bajo los cuales tu puedes usar nuestra página web 
-                                y servicios ofrecidos por nosotros. </p> 
-                                <p>Esta página web ofrece a los visitantes servicios de polizas juridicas. </p>
-                                <p>Al acceder o usar la página web de nuestro servicio, usted aprueba que haya leído, 
-                                entendido y aceptado estar sujeto a estos Términos:
-                                Se usara su informacion personal para consultar buro de credito etc</p>
-                                etc
-                                etc
-                                etc
-                                etc
-                            </div>
-                            <!-- End Content -->
-                        </div>
-                    </div>
+                                Por este medio autorizo expresamente a IXAREX, S.A. de C.V., para que por conducto de sus funcionarios facultados
+                                 lleven a cabo Investigaciones, sobre mi comportamiento crediticio, financiero/económico y legal/judicial, 
+                                 previo y durante la contratación de sus servicios, quedando a salvo la protección de mi información, conforme a 
+                                 LA LEY FEDERAL DE PROTECCIÓN DE DATOS PERSONALES EN POSESIÓN DE LOS PARTICULARES asi como también el 
+                                 <a target="_blank" style="color:blue;" href="https://arrendify.com/wp-content/uploads/2021/06/AVISO-DE-PRIVACIDAD-ARRENDIFY.pdf">AVISO DE PRIVACIDAD</a> que previamente leí y acepté.
 
-                    {% comment %} Inicio de la carta {% endcomment %}
-                    <div style="margin-top:15px;" class="col-12 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                        <div class="card shadow border-0 p-4 py-5 mt-lg-n5">
-                            <!-- Header -->
-                            <div class="card-header bg-white border-0 pb-0">
-                                <span style="margin-top:-20px" class="d-block">
-                                    <span class="h2 text-primary fw-bold align-top">¿Cuáles son los requisitos para crear una cuenta?</span>
-                                </span>
-                            </div>
-                            <!-- End Header -->
-                            <!-- Content -->
-                            <div class="card-body">
-                                Para usar nuestro página web y / o recibir nuestros servicios, 
-                                debes tener al menos 18 años de edad, o la mayoría de edad legal en tu jurisdicción, 
-                                y poseer la autoridad legal, el derecho y la libertad para participar en estos Términos como un acuerdo vinculante. 
-                                No tienes permitido utilizar esta página web y / o recibir servicios si hacerlo está prohibido en tu país o en virtud
-                                de cualquier ley o regulación aplicable a tu caso.
-                                   
+                                
                             </div>
                             <!-- End Content -->
                         </div>
                     </div>
-                    {% comment %} Inicio de la carta {% endcomment %}
-                    <div style="margin-top:15px;" class="col-12 col-md-6 col-lg-4 mb-5 mb-lg-0">
-                        <div class="card shadow border-0 p-4 py-5 mt-lg-n5">
-                            <!-- Header -->
-                            <div class="card-header bg-white border-0 pb-0">
-                                <span style="margin-top:-20px" class="d-block">
-                                    <span class="h2 text-primary fw-bold align-top">Terminos 2</span>
-                                </span>
-                    
-                            </div>
-                            <!-- End Header -->
-                            <!-- Content -->
-                            <div class="card-body">
-                                Al comprar una poliza, aceptas que: (i) eres responsable de leer el listado completo de los beneficios 
-                                antes de comprometerte a comprarlo: (ii) celebras un contrato legalmente vinculante para comprar un artículo 
-                                cuando te comprometes a comprar una poliza y completar el proceso de tu solicitud.
-                                 </div>
-                            <!-- End Content -->
-                        </div>
-                    </div>
-                  
-                    
                 </div>
-                <div style="margin-top:20px ;">
-                    
+                    <div style="margin-top:20px ;">
+                   
                     </div>
-                    <a style="Display:none" class="btn btn-lg btn-secondary" href="">Haz click aqui</a>
+                    {% comment %} <a style="Display:none" class="btn btn-lg btn-secondary" href="">Haz click aqui</a>
                     <p style="color:#231944; margin-left:1792px; text-align:left;" class="lead mb-4">(i)Letras pequeñas 1</p>
                     <p style="color:#231942; margin-left:1785px; margin-top:-30px;" class="lead mb-4">(ii)Letras pequeñas 2</p>
-                    <p style="color:#231942; margin-left:1780px; margin-top:-30px; " class="lead mb-4">(iii)Letras pequeñas 3</p>
+                    <p style="color:#231942; margin-left:1780px; margin-top:-30px; " class="lead mb-4">(iii)Letras pequeñas 3</p> {% endcomment %}
             </div>
         </section>
 

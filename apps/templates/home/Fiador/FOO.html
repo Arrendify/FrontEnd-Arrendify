@@ -53,6 +53,7 @@
                 <th class="border-bottom">Fecha de Registro</th>
                 <th class="border-bottom">Tipo De Aval</th>
                 <th class="border-bottom">Deudor</th>
+                <th class="border-bottom">Documentos</th>
                 <th class="border-bottom">Acción</th>
                 <th class="border-bottom"></th>
             </tr>
@@ -137,7 +138,7 @@
                         </div>
                     </div>
                     <hr class="hr" />
-    {% comment %} fiador solidarios shadow border-2 p-1 {% endcomment %}     
+                 {% comment %} fiador solidarios shadow border-2 p-1 {% endcomment %}     
                     <div class="input text " id="FS" style="Display:none;">
                         <div class="text">
                             <h4>Datos Generales</h4>
@@ -796,10 +797,7 @@
 <script>
 
     // Primero verificamos al usuario autenticado
- 
-
- 
-    //document.getElementById("body_1").onload = auten()  
+    document.getElementById("body_1").onload = auten()  
 
 
     function alert0(id){
@@ -1123,6 +1121,7 @@ document.getElementById("inquilino").onload = obtenerInquilinos()
             let col5 = document.createElement('td')
             let col6 = document.createElement('td')
             let col7 = document.createElement('td')
+            let col8 = document.createElement('td')
             let check = document.createElement("input")
             check.setAttribute("type","checkbox");
             check.setAttribute("class","form-check-input");
@@ -1152,7 +1151,28 @@ document.getElementById("inquilino").onload = obtenerInquilinos()
 // mostrar el nombre del inquilino con FK
 
             col6.innerHTML = `<span class="fw-normal ">${res[i].inquilino_nombre + " " + res[i].inquilino_apellido + " " + res[i].inquilino_apellido1 }</span>`
-            col7.innerHTML =   `<div class="btn-group dropstart">
+            //condicion cuanto haya Archivos o no
+            if (!res[i].archivos[0])
+            {
+                col7.innerHTML = `<button type="button" class="btn btn-primary" onClick="subir(${res[i].id})">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                    <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path>
+                    </svg>
+                    Subir
+              </button>`
+            }
+            else{
+                var prueba = JSON.stringify(res[i])
+                col7.innerHTML = `<button type="button" class="btn btn-primary" onClick="det_docs(${res[i].id})">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                    <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"></path>
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path>
+                    </svg>
+                    Ver Docs
+              </button>`
+                }
+            col8.innerHTML =   `<div class="btn-group dropstart">
                                 <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
                                     <span class="visually-hidden">Toggle Dropdown</span>
@@ -1179,6 +1199,7 @@ document.getElementById("inquilino").onload = obtenerInquilinos()
             tr.appendChild(col5);
             tr.appendChild(col6);
             tr.appendChild(col7);
+            tr.appendChild(col8);
             cuerpo.appendChild(tr);
         }
             console.log(response);
@@ -1256,11 +1277,8 @@ function editar(id){
         event.preventDefault();
 
         console.log("ojojojo")
-
         formulario = JSON.parse(localStorage.getItem('datos'));
-        
         console.log("viewform",formulario)
-        
         enviar_datos(formulario)
     
        
@@ -1346,5 +1364,24 @@ function obtenerInquilinos(){
     });
 }
 
+//================================ SUbir archivos ===============================
+function subir(id){
+    console.log("data_fiador",data_fiador)
+    let info = data_fiador.filter(fiador=>fiador.id==id)
+    localStorage.setItem('data_fiador', JSON.stringify(info[0]));
+    console.log("local",localStorage)
+    console.log("info",info)
+    window.location.href = `/documentos_fia/${id}`
+}
+function det_docs(id){
+    console.log(id)
+    console.log("data_fiador",data_fiador)
+    let info = data_fiador.filter(fiador=>fiador.id==id)
+    localStorage.setItem('data_fiador', JSON.stringify(info[0]));
+    console.log("local",localStorage)
+    console.log("info",info)
+    window.location.href = `/det_documentos/${id}`
+  //
+}
 </script>
 {% endblock javascripts %}
